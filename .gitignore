@@ -27,3 +27,5 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+/src/test.txt
+/src/test[ENCRYPTED].txt
