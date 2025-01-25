@@ -11,8 +11,7 @@ import java.util.ArrayList;
 public class FileService {
 
     public static String getOutFileName(String inFilePath, String postfix){
-        String outFilePath = "";
-        Path filePath = Path.of(inFilePath);
+        String outFilePath;
         String directory = Path.of(inFilePath).getParent().toString();
         if(directory == null){
             directory = Path.of(inFilePath).getRoot().toString();

@@ -39,7 +39,7 @@ public class CaesarCipher {
 
             char c = string.charAt(i);
             if(specialSymbols.contains(String.valueOf(c)) || i == string.length() - 1){
-                if(tempString.length() > 0) {
+                if(!tempString.isEmpty()) {
                     words.add(tempString.toString());
                 }
                 tempString = new StringBuilder();
