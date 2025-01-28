@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="caesarCipherApp.bondarenko.andrii:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/caesarCipherApp_bondarenko_andrii_jar</output-path>
+    <root id="archive" name="caesarCipherApp.bondarenko.andrii.jar">
+      <element id="module-output" name="caesarCipherApp.bondarenko.andrii" />
+    </root>
+  </artifact>
+</component>
