@@ -1,7 +1,7 @@
 package ua.javarush.caesarCipher.runner;
 import ua.javarush.caesarCipher.constants.Commands;
 
-public class RunnerConfiguration {
+class RunnerConfiguration {
     private Commands command = Commands.UNKNOWN;
     private String filePath = "";
     private String dictionaryFilePath = "";

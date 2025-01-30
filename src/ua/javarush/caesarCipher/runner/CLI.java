@@ -3,7 +3,7 @@ package ua.javarush.caesarCipher.runner;
 import ua.javarush.caesarCipher.constants.Commands;
 import java.util.Scanner;
 
-public class CLI {
+class CLI {
     final static String CLI_COMMANDS = "Оберіть одну з наступних команд і натисніть <Enter>\n" +
             "[e]ncrypt | [d]ecrypt | [b]rut force | [q]uit";
     final static String FILE_PATH_MESSAGE = "Введіть шлях к текстовому файлу: ";
