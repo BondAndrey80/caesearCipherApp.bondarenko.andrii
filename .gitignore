@@ -30,3 +30,5 @@ bin/
 /src/test.txt
 /src/test[ENCRYPTED].txt
 
+/.idea/
+/src/META-INF/
