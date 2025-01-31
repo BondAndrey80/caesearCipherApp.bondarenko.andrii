@@ -1,4 +1,4 @@
-package ua.javarush.caesarCipher.IO;
+package ua.javarush.caesarCipher;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

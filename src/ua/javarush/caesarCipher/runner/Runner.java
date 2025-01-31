@@ -1,6 +1,6 @@
 package ua.javarush.caesarCipher.runner;
 
-import ua.javarush.caesarCipher.IO.FileService;
+import ua.javarush.caesarCipher.FileService;
 import ua.javarush.caesarCipher.cipher.BruteForceConfiguration;
 import ua.javarush.caesarCipher.cipher.CaesarCipher;
 import ua.javarush.caesarCipher.constants.Commands;

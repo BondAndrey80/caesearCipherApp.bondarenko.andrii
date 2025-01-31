@@ -2,7 +2,7 @@ package ua.javarush.caesarCipher.cipher;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-class BruteForceConfiguration {
+public class BruteForceConfiguration {
 
     private HashMap<Integer, ArrayList<String>> dictionaryKey = new HashMap<>();
 
