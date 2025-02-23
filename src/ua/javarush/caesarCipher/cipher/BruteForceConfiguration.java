@@ -1,22 +1,20 @@
 package ua.javarush.caesarCipher.cipher;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class BruteForceConfiguration {
 
-    private HashMap<Integer, ArrayList<String>> dictionaryKey = new HashMap<>();
+    private final Map<Integer, List<String>> dictionaryKey = new HashMap<>();
 
-    public BruteForceConfiguration(){
-
-    }
-
-    public HashMap<Integer, ArrayList<String>> getDictionaryKey() {
+    public Map<Integer, List<String>> getDictionaryKey() {
         return dictionaryKey;
     }
 
-    public void loadDictionary(ArrayList<String> keywords){
+    public void loadDictionary(List<String> keywords){
         for(String word : keywords){
-            ArrayList<String> wordList = this.dictionaryKey.get(word.length());
+            List<String> wordList = this.dictionaryKey.get(word.length());
             if(wordList == null){
                 wordList = new ArrayList<>();
             }
@@ -24,5 +22,4 @@ public class BruteForceConfiguration {
             this.dictionaryKey.put(word.length(), wordList);
         }
     }
-
 }

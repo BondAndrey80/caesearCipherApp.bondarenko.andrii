@@ -12,7 +12,7 @@ public class CaesarCipher {
     private int key;
     private int specialSymbolKey;
 
-    public CaesarCipher(int key){
+    public CaesarCipher(int key) {
         setKey(key);
     }
 
@@ -22,28 +22,28 @@ public class CaesarCipher {
         this.specialSymbolKey = Math.abs(tempKey) >= Alpabets.SPECIAL_SYMBOL.length ? tempKey % Alpabets.SPECIAL_SYMBOL.length : tempKey;
     }
 
-    private int getKey(int alphabetLength){
-        return Math.abs(this.key) >= alphabetLength ? this.key % alphabetLength  : this.key;
+    private int getKey(int alphabetLength) {
+        return Math.abs(this.key) >= alphabetLength ? this.key % alphabetLength : this.key;
     }
 
-    public int getUserKey(){
+    public int getUserKey() {
         return this.key;
     }
 
-    private ArrayList<String> getWords(String string){
-        ArrayList<String> words = new ArrayList<>();
+    private List<String> getWords(String string) {
+        List<String> words = new ArrayList<>();
         List<String> specialSymbols = Arrays.asList(Alpabets.SPECIAL_SYMBOL);
         StringBuilder tempString = new StringBuilder();
 
         for (int i = 0; i < string.length(); i++) {
 
             char c = string.charAt(i);
-            if(specialSymbols.contains(String.valueOf(c)) || i == string.length() - 1){
-                if(!tempString.isEmpty()) {
+            if (specialSymbols.contains(String.valueOf(c)) || i == string.length() - 1) {
+                if (!tempString.isEmpty()) {
                     words.add(tempString.toString());
                 }
                 tempString = new StringBuilder();
-            }else {
+            } else {
                 tempString.append(c);
             }
 
@@ -51,7 +51,7 @@ public class CaesarCipher {
         return words;
     }
 
-    private String encryptDecrypt(String string, Commands command){
+    private String encryptDecrypt(String string, Commands command) {
         StringBuilder encryptString = new StringBuilder();
         for (int i = 0; i < string.length(); i++) {
 
@@ -59,93 +59,92 @@ public class CaesarCipher {
 
             String[] alphabet;
             int shiftKey;
-            if (Character.isLetter(c)){
+            if (Character.isLetter(c)) {
                 Language code = Alpabets.getLanguage(c);
                 alphabet = Alpabets.getAlphabet(code);
                 shiftKey = getKey(alphabet.length);
-
-            }else{
+            } else {
                 alphabet = Alpabets.SPECIAL_SYMBOL;
                 shiftKey = this.specialSymbolKey;
             }
 
             int index = -1;
             for (int j = 0; j < alphabet.length; j++) {
-                if (alphabet[j].equals(Character.toString(c))){
-                    if(command == Commands.ENCRYPT) {
+                if (alphabet[j].equals(Character.toString(c))) {
+                    if (command == Commands.ENCRYPT) {
                         index = j + shiftKey;
-                    }else {
+                    } else {
                         index = j - shiftKey;
                     }
-                    if (index < 0){
+                    if (index < 0) {
                         index = index + alphabet.length;
-                    }else {
+                    } else {
                         index = index >= alphabet.length ? index - alphabet.length : index;
                     }
                     break;
                 }
             }
 
-            if (index == -1){
+            if (index == -1) {
                 //Не нашли символ в алфавите, оставляем без изменений
                 encryptString.append(c);
-            }else {
+            } else {
                 encryptString.append(alphabet[index]);
             }
         }
         return encryptString.toString();
     }
 
-    public String encrypt(String string){
+    public String encrypt(String string) {
         return encryptDecrypt(string, Commands.ENCRYPT);
     }
 
-    public String decrypt(String string){
+    public String decrypt(String string) {
         return encryptDecrypt(string, Commands.DECRYPT);
     }
 
-    public ArrayList<String> bruteForce(ArrayList<String> encryptedStrings, BruteForceConfiguration bruteForceConfig){
-        ArrayList<String> decryptedStrings = new ArrayList<>();
+    public List<String> bruteForce(List<String> encryptedStrings, BruteForceConfiguration bruteForceConfig) {
+        List<String> decryptedStrings = new ArrayList<>();
 
         int maxKey = Math.max(Alpabets.ALPHABET_EN.length, Alpabets.ALPHABET_UK.length);
         boolean isKeyFound = false;
 
-        for (String line : encryptedStrings){
-            ArrayList<String> encryptedWords = getWords(line);
+        for (String line : encryptedStrings) {
+            List<String> encryptedWords = getWords(line);
 
-            for (String encryptWord : encryptedWords){
-                ArrayList<String> keywords = bruteForceConfig.getDictionaryKey().get(encryptWord.length());
-                if(keywords == null){
+            for (String encryptWord : encryptedWords) {
+                List<String> keywords = bruteForceConfig.getDictionaryKey().get(encryptWord.length());
+                if (keywords == null) {
                     continue;
                 }
                 for (int i = 0; i < maxKey; i++) {
                     this.setKey(i);
                     String decryptedWord = this.decrypt(encryptWord);
 
-                    for (String keyword : keywords){
-                        if(keyword.equalsIgnoreCase(decryptedWord)){
+                    for (String keyword : keywords) {
+                        if (keyword.equalsIgnoreCase(decryptedWord)) {
                             isKeyFound = true;
                             break;
                         }
                     }
 
-                    if(isKeyFound){
+                    if (isKeyFound) {
                         break;
                     }
                 }
 
-                if(isKeyFound){
+                if (isKeyFound) {
                     break;
                 }
             }
 
-            if(isKeyFound){
+            if (isKeyFound) {
                 break;
             }
         }
 
-        if (isKeyFound){
-            for (String line: encryptedStrings){
+        if (isKeyFound) {
+            for (String line : encryptedStrings) {
                 decryptedStrings.add(this.decrypt(line));
             }
         }

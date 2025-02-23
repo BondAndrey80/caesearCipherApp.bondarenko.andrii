@@ -7,45 +7,47 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 public class FileService {
 
-    public static String getOutFileName(String inFilePath, String postfix){
+    public static String getOutFileName(String inFilePath, String postfix) {
         String outFilePath;
-        String directory = Path.of(inFilePath).getParent().toString();
-        if(directory == null){
-            directory = Path.of(inFilePath).getRoot().toString();
+        Path path = Path.of(inFilePath);
+        String directory = path.getParent().toString();
+        if (directory == null) {//directory завжди не null
+            directory = path.getRoot().toString();
         }
-        String fileName = Path.of(inFilePath).getFileName().toString();
+        String fileName = path.getFileName().toString();
         int dotIndex = fileName.lastIndexOf(".");
 
         outFilePath = Path.of(directory, fileName.substring(0, dotIndex) + postfix + fileName.substring(dotIndex)).toString();
         return outFilePath;
     }
 
-    public static ArrayList<String> getStringsFromFile(String filePath) throws IOException{
+    public static List<String> getStringsFromFile(String filePath) throws IOException {
         ArrayList<String> stringList = new ArrayList<>();
 
-        try(BufferedReader reader = Files.newBufferedReader(Paths.get(filePath))){
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get(filePath))) {
             String line;
-            while ((line = reader.readLine()) != null){
+            while ((line = reader.readLine()) != null) {
                 stringList.add(line);
             }
-        }catch (IOException e){
+        } catch (IOException e) {//навіщо цей catch якщо він не обробляє помилку а прокидає її далі?
             throw e;
         }
         return stringList;
     }
 
-    public static void writeTextToFile(ArrayList<String> text, String filePath) throws IOException{
-        try(BufferedWriter writer = Files.newBufferedWriter(Paths.get(filePath))){
+    public static void writeTextToFile(List<String> text, String filePath) throws IOException {
+        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(filePath))) {
             for (int i = 0; i < text.size(); i++) {
                 writer.write(text.get(i));
-                if (i < text.size() - 1){
+                if (i < text.size() - 1) {
                     writer.newLine();
                 }
             }
-        }catch (IOException e){
+        } catch (IOException e) { //навіщо цей catch якщо він не обробляє помилку а прокидає її далі?
             throw e;
         }
     }

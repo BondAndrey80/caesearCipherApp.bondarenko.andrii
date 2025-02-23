@@ -1,6 +1,7 @@
 package ua.javarush.caesarCipher.runner;
 
 import ua.javarush.caesarCipher.constants.Commands;
+
 import java.util.Scanner;
 
 class CLI {
@@ -10,14 +11,14 @@ class CLI {
     final static String FILE_PATH_DICTIONARY_MESSAGE = "Введіть шлях к текстовому файлу з ключовими словами: ";
     final static String KEY_MESSAGE = "Введіть ключ шифрування (ціле число): ";
 
-    private static Commands getCommand(){
+    private static Commands getCommand() {
         System.out.println("Ви можете зашифрувати, розшифрувати або взломати шифр текстового файлу\n" + CLI_COMMANDS);
         System.out.print("Введіть команду: ");
         Scanner scanner = new Scanner(System.in);
         Commands command;
-        while (true){
+        while (true) {
             String value = scanner.nextLine();
-            if(value.equalsIgnoreCase("q")){
+            if (value.equalsIgnoreCase("q")) {
                 command = Commands.UNKNOWN;
                 break;
             } else if (value.equalsIgnoreCase("e")) {
@@ -29,7 +30,7 @@ class CLI {
             } else if (value.equalsIgnoreCase("b")) {
                 command = Commands.BRUTE_FORCE;
                 break;
-            }else {
+            } else {
                 System.out.println(CLI_COMMANDS);
                 System.out.print("Введіть команду ще раз: ");
             }
@@ -37,23 +38,22 @@ class CLI {
         return command;
     }
 
-    private static String getFilePath(Boolean isBruteForce){
+    private static String getFilePath(Boolean isBruteForce) {
         Scanner scanner = new Scanner(System.in);
         System.out.print(isBruteForce ? FILE_PATH_DICTIONARY_MESSAGE : FILE_PATH_MESSAGE);
-        String filePath = scanner.nextLine();
-        return filePath;
+        return scanner.nextLine();
     }
 
-    private static int getKey(){
-        int key = 0;
+    private static int getKey() {
+        int key;
         System.out.print(KEY_MESSAGE);
         Scanner scanner = new Scanner(System.in);
-        while (true){
+        while (true) {
             String value = scanner.nextLine();
             try {
                 key = Integer.parseInt(value);
                 break;
-            }catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 System.out.println("Невірний формат");
                 System.out.print(KEY_MESSAGE);
             }
@@ -61,36 +61,33 @@ class CLI {
         return key;
     }
 
-    public static RunnerConfiguration mainMenu(){
+    static RunnerConfiguration mainMenu() {
         RunnerConfiguration config;
-        Scanner scaner = new Scanner(System.in);
-        while (true){
+        Scanner scanner = new Scanner(System.in);
+        do {
             config = new RunnerConfiguration();
             config.setCommand(getCommand());
-            if(config.getCommand() == Commands.UNKNOWN){
+            if (config.getCommand() == Commands.UNKNOWN) {
                 return config;
             }
             config.setFilePath(getFilePath(false));
-            if(config.getCommand() == Commands.BRUTE_FORCE){
+            if (config.getCommand() == Commands.BRUTE_FORCE) {
                 config.setDictionaryFilePath(getFilePath(true));
-            }else{
+            } else {
                 config.setKey(getKey());
             }
 
             System.out.println("\nВи обрали наступні параметри:");
-            if(config.getCommand() == Commands.BRUTE_FORCE){
+            if (config.getCommand() == Commands.BRUTE_FORCE) {
                 System.out.printf("Команда: %s\nШлях до файлу: %s\nКлюч: %s\n",
                         config.getCommand(), config.getFilePath(), config.getKey());
-            }else {
+            } else {
                 System.out.printf("Команда: %s\nШлях до файлу: %s\nШлях до файлу з ключовими словами: %s\n",
                         config.getCommand(), config.getFilePath(), config.getDictionaryFilePath());
             }
 
             System.out.print("Продовжити?\n[y]Так | [n]Ні\nВведіть команду: ");
-            if (scaner.nextLine().equalsIgnoreCase("y")){
-                break;
-            }
-        }
+        } while (!scanner.nextLine().equalsIgnoreCase("y"));
         return config;
     }
 }
