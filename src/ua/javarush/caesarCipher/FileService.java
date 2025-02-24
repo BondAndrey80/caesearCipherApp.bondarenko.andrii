@@ -29,20 +29,22 @@ public class FileService {
 
     public static List<String> getStringsFromFile(String filePath) throws IOException {
         ArrayList<String> stringList = new ArrayList<>();
-        BufferedReader reader = Files.newBufferedReader(Paths.get(filePath));
-        String line;
-        while ((line = reader.readLine()) != null) {
-            stringList.add(line);
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                stringList.add(line);
+            }
         }
         return stringList;
     }
 
     public static void writeTextToFile(List<String> text, String filePath) throws IOException {
-        BufferedWriter writer = Files.newBufferedWriter(Paths.get(filePath));
-        for (int i = 0; i < text.size(); i++) {
-            writer.write(text.get(i));
-            if (i < text.size() - 1) {
-                writer.newLine();
+        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(filePath))) {
+            for (int i = 0; i < text.size(); i++) {
+                writer.write(text.get(i));
+                if (i < text.size() - 1) {
+                    writer.newLine();
+                }
             }
         }
     }
